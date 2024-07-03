@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:food_delivery_app/components/my_current_location.dart';
 import 'package:food_delivery_app/components/my_description_box.dart';
 import 'package:food_delivery_app/components/my_drawer.dart';
 import 'package:food_delivery_app/components/my_sliver_app_bar.dart';
+import 'package:food_delivery_app/components/my_tab_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,7 +15,24 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  // Tab controller
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    // length = jumlah tabbar
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +42,7 @@ class _HomePageState extends State<HomePage> {
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           // Atas
           MySliveAppBar(
-            title: Text('Title'),
+            title: MyTabBar(tabController: _tabController),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
@@ -44,8 +63,40 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         // Bawah
-        body: Container(
-          color: Colors.orange,
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            ListView.builder(
+              itemCount: 5,
+              itemBuilder: (context, index) => Text(
+                "1",
+                style: TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            ListView.builder(
+              itemCount: 5,
+              itemBuilder: (context, index) => Text(
+                "2",
+                style: TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            ListView.builder(
+              itemCount: 5,
+              itemBuilder: (context, index) => Text(
+                "3",
+                style: TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
