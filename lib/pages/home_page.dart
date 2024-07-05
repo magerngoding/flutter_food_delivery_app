@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage>
                 // My current location
                 MyCurrentLocation(),
 
-                // description box
+                // description boxx
                 MyDescriptionBox(),
               ],
             ),
