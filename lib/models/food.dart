@@ -2,7 +2,7 @@
 
 // food item
 class Food {
-  final String name; // Chrrse burgrt
+  final String name; // Cheese burgrt
   final String description; // a burger full of cheese
   final String imagePath; // lib/images/cheese_burger.png
   final double price; // 4.99
