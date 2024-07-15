@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/pages/cart_page.dart';
 
 class MySliveAppBar extends StatelessWidget {
   final Widget child;
@@ -20,7 +21,15 @@ class MySliveAppBar extends StatelessWidget {
       actions: [
         // Cart button
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            // go to cart page
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CartPage(),
+              ),
+            );
+          },
           icon: const Icon(
             Icons.shopping_cart,
             size: 24.0,
