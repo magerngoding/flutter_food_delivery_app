@@ -2,12 +2,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
 import 'package:food_delivery_app/components/my_button.dart';
 import 'package:food_delivery_app/components/my_textfield.dart';
-
-import 'home_page.dart';
+import 'package:food_delivery_app/services/auth/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   final void Function()? onTap;
@@ -26,16 +23,26 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
 
   // login method
-  void login() {
-    // fill out authentication here...
+  void login() async {
+    // get instance of auth sercixe
+    final _authService = AuthService();
 
-    // navigate to home page
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomePage(),
-      ),
-    );
+    //try sign in
+    try {
+      await _authService.signInWithEmailPassword(
+        emailController.text,
+        passwordController.text,
+      );
+
+      // display any errors
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(e.toString()),
+        ),
+      );
+    }
   }
 
   @override

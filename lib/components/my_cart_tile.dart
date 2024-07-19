@@ -59,25 +59,31 @@ class MyCartTile extends StatelessWidget {
                       Text(cartItem.food.name),
 
                       // food price
-                      Text('\$' + cartItem.food.price.toString()),
+                      Text(
+                        '\$' + cartItem.food.price.toString(),
+                      ),
+
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+
+                      // increment or decrement
+                      QuantiySelector(
+                        quantity: cartItem.quantity,
+                        food: cartItem.food,
+                        onIncremment: () {
+                          restaurant.addToCart(
+                            cartItem.food,
+                            cartItem.selectedAddons,
+                          );
+                        },
+                        onDecrement: () {
+                          restaurant.removeFromCart(cartItem);
+                        },
+                      )
                     ],
                   ),
                   Spacer(),
-
-                  // increment or decrement
-                  QuantiySelector(
-                    quantity: cartItem.quantity,
-                    food: cartItem.food,
-                    onIncremment: () {
-                      restaurant.addToCart(
-                        cartItem.food,
-                        cartItem.selectedAddons,
-                      );
-                    },
-                    onDecrement: () {
-                      restaurant.removeFromCart(cartItem);
-                    },
-                  )
                 ],
               ),
             ),

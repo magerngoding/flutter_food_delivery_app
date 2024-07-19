@@ -1,9 +1,13 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/models/restaurant.dart';
+import 'package:provider/provider.dart';
 
 class MyCurrentLocation extends StatelessWidget {
-  const MyCurrentLocation({super.key});
+  MyCurrentLocation({super.key});
+
+  final textController = TextEditingController();
 
   void openLocationSearchBox(BuildContext context) {
     showDialog(
@@ -11,20 +15,29 @@ class MyCurrentLocation extends StatelessWidget {
       builder: (context) => AlertDialog(
         title: Text('Your Location'),
         content: TextField(
-          decoration: InputDecoration(hintText: 'Search address...'),
+          decoration: InputDecoration(hintText: 'Enter address...'),
         ),
         actions: [
           // Cancel button
           MaterialButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pop(context);
+              textController.clear();
+            },
             child: Text('Cancel'),
           ),
 
           // Save button
           MaterialButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              // update delivery address
+              String newAddress = textController.text;
+              context.read<Restaurant>().updateDeliveryAddress(newAddress);
+              Navigator.pop(context);
+              textController.clear();
+            },
             child: Text('Save'),
-          ),
+          )
         ],
       ),
     );
@@ -48,11 +61,13 @@ class MyCurrentLocation extends StatelessWidget {
             child: Row(
               children: [
                 // Address
-                Text(
-                  '911 Hollywood Bly',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.inversePrimary,
-                    fontWeight: FontWeight.bold,
+                Consumer<Restaurant>(
+                  builder: (context, restaurant, child) => Text(
+                    restaurant.deliveryAddress,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
 
